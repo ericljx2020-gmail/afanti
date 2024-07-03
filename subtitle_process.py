@@ -51,15 +51,19 @@ def fetch_subtitle(url: str):
     if subtitles == None:
         print("Check SSID or this video does not have subtitles")
     
-    subtitle_url = "https:" + subtitles[0]['subtitle_url']
-    print(subtitle_url)
-
-    subtitle_list = requests.get(subtitle_url)
-    subtitle_list = subtitle_list.json()
-    subtitle_list = subtitle_list['body']
+    print("the length of subtitles is: " + str(len(subtitles)))
     
     subtitle_all = ""
-    for subtitle in subtitle_list:
-        subtitle_all += subtitle['content']
+    for subtitle in subtitles:
+
+        subtitle_url = "https:" + subtitle['subtitle_url']
+        print(subtitle_url)
+
+        subtitle_list = requests.get(subtitle_url)
+        subtitle_list = subtitle_list.json()
+        subtitle_list = subtitle_list['body']
+
+        for subtitle in subtitle_list:
+            subtitle_all += subtitle['content']
 
     return subtitle_all
