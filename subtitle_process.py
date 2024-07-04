@@ -67,3 +67,4 @@ def fetch_subtitle(url: str):
             subtitle_all += subtitle['content']
 
     return subtitle_all
+
