@@ -1,8 +1,17 @@
 import re
 import requests
+import getpass
+import os
+
+def _set_env(var: str):
+    if not os.environ.get(var):
+        os.environ[var] = getpass.getpass(f"{var}: ")
+
+
+_set_env("bilibili_ssid")
 
 # 环境变量
-ssid = 'd12721b3%2C1735532229%2C2e02e%2A71CjA9iLMwHC4Ela21mLwYXvp-3IHwpmS_mrwdU7OcqYdhPsdRPGvZCj9xUOWOZg1dnTgSVjZHdjNzYlVEbF9odmViaVg0SkkyRl80VFhvVnlIazJYb0J5clVtRzg3U1NFWmZuR0tOVzkzTFJjdzVFaUp3QlpmN3g3SmtYd1BlSng2YmhhcVZycmFBIIEC'
+ssid = os.environ.get('bilibili_ssid')
 
 # get请求的headers
 headers = {
