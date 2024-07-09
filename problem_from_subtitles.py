@@ -20,7 +20,7 @@ def bv_to_url():
 def get_subtitles(urls):
     #将前25个视频的字幕加入subtitles
     subtitles = []
-    for url in urls[10:13]:
+    for url in urls[:10]:
         sub = fetch_subtitle(url)
         subtitles.append(sub)
 
@@ -57,3 +57,4 @@ async def run():
         responses.append(response)
 
     extract_question_explanations(responses)
+    return responses
