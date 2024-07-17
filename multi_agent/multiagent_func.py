@@ -142,19 +142,24 @@ def run(orig_problem, similar_problem, similar_solution, grade_value) -> list:
 
     graph = workflow.compile()
 
-    for s in graph.stream(
-        {
-            "messages": [
-                HumanMessage(content=similar_problem),
-                HumanMessage(content=similar_solution),
-                HumanMessage(content=orig_problem),
-            ]
-        }
-    ):
-        if "__end__" not in s:
-            record.append(s)
-            print(s)
-            print("----")
+    try:
+        for s in graph.stream(
+            {
+                "messages": [
+                    HumanMessage(content=similar_problem),
+                    HumanMessage(content=similar_solution),
+                    HumanMessage(content=orig_problem),
+                ]
+            },
+            {"recursion_limit": 12},
+        ):
+            if "__end__" not in s:
+                record.append(s)
+                print(s)
+                print("----")
+    except RecursionError as e:
+        print(f"题目可能无法用{grade_value}的知识点解出，请检查题目是否包含超纲内容。")
+        return [f"题目可能无法用{grade_value}的知识点解出，请检查题目是否包含超纲内容。",f"题目可能无法用{grade_value}的知识点解出，请检查题目是否包含超纲内容。"]
     noter_log = []
     explainer_log = []
     for item in record:
