@@ -151,7 +151,7 @@ def run(orig_problem, similar_problem, similar_solution, grade_value) -> list:
                     HumanMessage(content=orig_problem),
                 ]
             },
-            {"recursion_limit": 12},
+            {"recursion_limit": 15},
         ):
             if "__end__" not in s:
                 record.append(s)
