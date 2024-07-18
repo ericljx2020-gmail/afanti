@@ -142,12 +142,17 @@ def run(orig_problem, similar_problem, similar_solution, grade_value) -> list:
 
     graph = workflow.compile()
 
+    if "相似题" not in similar_problem:
+        similar_problem = "### 相似题：" + similar_problem
+    if "相似题解" not in similar_problem:
+        similar_solution = "### 相似题解：" + similar_solution
+
     try:
         for s in graph.stream(
             {
                 "messages": [
-                    HumanMessage(content=similar_problem),
-                    HumanMessage(content=similar_solution),
+                    # HumanMessage(content=similar_problem),
+                    # HumanMessage(content=similar_solution),
                     HumanMessage(content=orig_problem),
                 ]
             },
