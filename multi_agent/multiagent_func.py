@@ -151,8 +151,8 @@ def run(orig_problem, similar_problem, similar_solution, grade_value) -> list:
         for s in graph.stream(
             {
                 "messages": [
-                    # HumanMessage(content=similar_problem),
-                    # HumanMessage(content=similar_solution),
+                    HumanMessage(content=similar_problem),
+                    HumanMessage(content=similar_solution),
                     HumanMessage(content=orig_problem),
                 ]
             },
