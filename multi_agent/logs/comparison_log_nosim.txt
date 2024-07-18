@@ -20,6 +20,10 @@
 ----
 {'Supervisor': {'next': 'FINISH'}}
 ----
+
+
+
+
 {'Supervisor': {'next': 'Noter'}}
 ----
 {'Noter': {'messages': [HumanMessage(content='知识点讲解:本题考查的知识点是鸡兔同笼问题，解题关键点是列出方程组进行求解。\n### 板书一:\n设鸡的只数为x，兔子的只数为y。\n\n依题意得：\n$$\nx + y = 35\n$$\n$$\n2x + 4y = 94\n$$\n### 板书二:\n由方程$x + y = 35$，可得$y = 35 - x$。\n\n将$y = 35 - x$代入$2x + 4y = 94$，得：\n$$\n2x + 4(35 - x) = 94\n$$\n$$\n2x + 140 - 4x = 94\n$$\n$$\n-2x + 140 = 94\n$$\n$$\n-2x = 94 - 140\n$$\n$$\n-2x = -46\n$$\n$$\nx = 23\n$$\n由$x = 23$代入$y = 35 - x$，得：\n$$\ny = 35 - 23\n$$\n$$\ny = 12\n$$\n故答案是鸡有23只，兔子有12只。', name='Noter')]}}
@@ -42,6 +46,10 @@
 ----
 {'Supervisor': {'next': 'FINISH'}}
 ----
+
+
+
+
 {'Supervisor': {'next': 'Noter'}}
 ----
 {'Noter': {'messages': [HumanMessage(content='知识点讲解: 本题考查的知识点是倍数和公倍数，解题关键点是找到满足条件的数并计数。\n\n### 板书一:\n\n依题意得 $1$ 到 $1000$ 之间既是 $7$ 的倍数又是 $11$ 的倍数的数，需满足\n\n$N = 7 \\times 11 \\times k = 77 \\times k$\n\n其中 $k$ 为整数。\n\n设 $N$ 的范围为 $77 \\leq N \\leq 1000$ ，则\n\n$77 \\times 1 \\leq 1000$\n\n$k \\leq \\frac{1000}{77}$\n\n$k \\leq 12.987$\n\n所以 $k$ 的取值为 $1$ 到 $12$ 的整数。\n\n### 板书二:\n满足条件的数的个数就是 $k$ 的个数，即\n\n$k = 1, 2, 3, \\dots, 12$\n\n共 $12$ 个\n\n故答案是 $12$.', name='Noter')]}}
@@ -56,6 +64,10 @@
 ----
 {'Supervisor': {'next': 'FINISH'}}
 ----
+
+
+
+
 {'Supervisor': {'next': 'Noter'}}
 ----
 {'Noter': {'messages': [HumanMessage(content='知识点讲解: 本题考查的知识点是方程组的解法，解题关键点是列出方程组并求解。\n\n### 板书一:\n设每支笔的价格为 \\( x \\) 元，则每本书的价格为 \\( 3x \\) 元\n依题意得：\n\\[\n5 \\times 3x + 3 \\times x = 56\n\\]\n\n### 板书二:\n化简得：\n\\[\n15x + 3x = 56\n\\]\n\\[\n18x = 56\n\\]\n\\[\nx = \\frac{56}{18}\n\\]\n\\[\nx = \\frac{28}{9}\n\\]\n\n每本书的价格为：\n\\[\n3x = 3 \\times \\frac{28}{9} = \\frac{84}{9} = \\frac{28}{3}\n\\]\n\n故每支笔的价格为 \\(\\frac{28}{9}\\) 元，每本书的价格为 \\(\\frac{28}{3}\\) 元。\n故答案是每支笔的价格为 \\(\\frac{28}{9}\\) 元，每本书的价格为 \\(\\frac{28}{3}\\) 元。', name='Noter')]}}
@@ -78,6 +90,10 @@
 ----
 {'Supervisor': {'next': 'FINISH'}}
 ----
+
+
+
+
 {'Supervisor': {'next': 'Noter'}}
 ----
 {'Noter': {'messages': [HumanMessage(content='知识点讲解: 本题考查的知识点是乘法运算，解题关键点是利用乘法分配律进行简化计算。\n\n### 板书一:\n\\(\n98 \\times 102 = 98 \\times (100 + 2)\n\\)\n\\(\n= 98 \\times 100 + 98 \\times 2\n\\)\n\\(\n= 9800 + 196\n\\)\n\\(\n= 9996\n\\)\n\n故答案是9996。', name='Noter')]}}
@@ -92,6 +108,10 @@
 ----
 {'Supervisor': {'next': 'FINISH'}}
 ----
+
+
+
+
 {'Supervisor': {'next': 'Noter'}}
 ----
 {'Noter': {'messages': [HumanMessage(content='知识点讲解:本题考查的知识点是三角形的基本性质和正弦定理，解题关键点是利用三角函数和正弦定理求解边长。\n\n### 板书一:\n依题意得：\n$\\angle C = 180^\\circ - \\angle A - \\angle B$\n$\\angle C = 180^\\circ - 30^\\circ - 45^\\circ$\n$\\angle C = 105^\\circ$\n\n### 板书二:\n应用正弦定理：\n$\\frac{AB}{\\sin C} = \\frac{AC}{\\sin B}$\n$\\frac{AB}{\\sin 105^\\circ} = \\frac{10}{\\sin 45^\\circ}$\n\n### 板书三:\n$\\sin 105^\\circ = \\sin (60^\\circ + 45^\\circ) = \\sin 60^\\circ \\cos 45^\\circ + \\cos 60^\\circ \\sin 45^\\circ$\n$\\sin 60^\\circ = \\frac{\\sqrt{3}}{2}$, $\\cos 60^\\circ = \\frac{1}{2}$, $\\sin 45^\\circ = \\cos 45^\\circ = \\frac{\\sqrt{2}}{2}$\n$\\sin 105^\\circ = \\frac{\\sqrt{3}}{2} \\cdot \\frac{\\sqrt{2}}{2} + \\frac{1}{2} \\cdot \\frac{\\sqrt{2}}{2}$\n$\\sin 105^\\circ = \\frac{\\sqrt{6}}{4} + \\frac{\\sqrt{2}}{4} = \\frac{\\sqrt{6} + \\sqrt{2}}{4}$\n\n### 板书四:\n$\\sin 45^\\circ = \\frac{\\sqrt{2}}{2}$\n\n### 板书五:\n$\\frac{AB}{\\frac{\\sqrt{6} + \\sqrt{2}}{4}} = \\frac{10}{\\frac{\\sqrt{2}}{2}}$\n$AB \\cdot \\frac{4}{\\sqrt{6} + \\sqrt{2}} = 10 \\cdot \\frac{2}{\\sqrt{2}}$\n$AB \\cdot \\frac{4}{\\sqrt{6} + \\sqrt{2}} = 10 \\cdot \\sqrt{2}$\n$AB = \\frac{10 \\cdot \\sqrt{2} \\cdot (\\sqrt{6} + \\sqrt{2})}{4}$\n$AB = \\frac{10 \\cdot \\sqrt{2} \\cdot \\sqrt{6} + 10 \\cdot \\sqrt{2} \\cdot \\sqrt{2}}{4}$\n$AB = \\frac{10 \\cdot \\sqrt{12} + 10 \\cdot 2}{4}$\n$AB = \\frac{10 \\cdot 2\\sqrt{3} + 20}{4}$\n$AB = \\frac{20\\sqrt{3} + 20}{4}$\n$AB = 5\\sqrt{3} + 5$\n$AB = 5(1 + \\sqrt{3})$\n\n故答案是$5(1 + \\sqrt{3})$厘米。', name='Noter')]}}
@@ -123,6 +143,10 @@
 {'Supervisor': {'next': 'Noter'}}
 ----
 题目可能无法用三年级的知识点解出，请检查题目是否包含超纲内容。
+
+
+
+
 {'Supervisor': {'next': 'Noter'}}
 ----
 {'Noter': {'messages': [HumanMessage(content='知识点讲解: 本题考查的知识点是质数与合数的概念，解题关键点是找到两个不同的质数，使它们的和是质数，并且它们的乘积是合数。\n\n### 板书一:\n设质数 \\( p \\) 和 \\( q \\)\n$p \\neq q$\n$p \\times q$ 是合数\n$p + q$ 是质数\n\n### 板书二:\n设 \\( p = 2 \\) 和 \\( q = 3 \\)\n$p + q = 2 + 3 = 5$ 是质数\n$p \\times q = 2 \\times 3 = 6$ 是合数\n故答案是 \\( p = 2 \\), \\( q = 3 \\)', name='Noter')]}}
@@ -137,6 +161,10 @@
 ----
 {'Supervisor': {'next': 'FINISH'}}
 ----
+
+
+
+
 {'Supervisor': {'next': 'Noter'}}
 ----
 {'Noter': {'messages': [HumanMessage(content='知识点讲解: 本题考查的知识点是折扣问题，解题关键点是折扣的顺序计算。\n\n### 板书一:\n原价 = 120 元\n\n八折后价格 = 120 × 0.8 = 96 元\n\n### 板书二:\n再打 5% 折扣后价格 = 96 × (1 - 0.05) = 96 × 0.95 = 91.2 元\n\n故答案是 91.2 元。', name='Noter')]}}
@@ -151,6 +179,10 @@
 ----
 {'Supervisor': {'next': 'FINISH'}}
 ----
+
+
+
+
 {'Supervisor': {'next': 'Noter'}}
 ----
 {'Noter': {'messages': [HumanMessage(content='知识点讲解:本题考查的知识点是分数应用题和方程的应用，解题关键点是计算新增书籍中的小说数量以及总新增书籍数量。\n\n### 板书一:\n小说原有总数 = $\\frac{2}{3} \\times 600 = 400$\n\n新增小说数量 = 450 - 400 = 50\n\n### 板书二:\n新增书籍总数 = 600 + 新增书籍数量 = 600 + (450 - 400 + 非小说的新增数量)\n\n设非小说的新增数量为$x$，则\n\n新增书籍总数 = 600 + 50 + $x$ = 650 + $x$\n\n故答案是：新增的这批书中有50本小说，新增的这批书一共有650 + 非小说数量本。', name='Noter')]}}
@@ -182,6 +214,10 @@
 {'Supervisor': {'next': 'Validator'}}
 ----
 题目可能无法用三年级的知识点解出，请检查题目是否包含超纲内容。
+
+
+
+
 {'Supervisor': {'next': 'Noter'}}
 ----
 {'Noter': {'messages': [HumanMessage(content='知识点讲解:本题考查的知识点是工程问题、分数应用题，解题关键点是找到各管子每小时的注水/排水量，并使用叠加法计算总合流量。\n\n### 板书一:\n第一个进水管每小时注水量: \n\\[ \\frac{1}{4} \\text{池} \\]\n\n第二个进水管每小时注水量: \n\\[ \\frac{1}{6} \\text{池} \\]\n\n出水管每小时排水量: \n\\[ \\frac{1}{8} \\text{池} \\]\n\n### 板书二:\n三个管子同时打开时，每小时净注水量:\n\\[ \\frac{1}{4} + \\frac{1}{6} - \\frac{1}{8} \\]\n\n通分计算：\n\\[ \\frac{1}{4} = \\frac{6}{24} \\]\n\\[ \\frac{1}{6} = \\frac{4}{24} \\]\n\\[ \\frac{1}{8} = \\frac{3}{24} \\]\n\n净注水量:\n\\[ \\frac{6}{24} + \\frac{4}{24} - \\frac{3}{24} = \\frac{7}{24} \\]\n\n### 板书三:\n游泳池注满所需时间:\n\\[ \\frac{1}{\\frac{7}{24}} = \\frac{24}{7} \\text{小时} \\]\n\n故答案是 \\( \\frac{24}{7} \\) 小时。', name='Noter')]}}
