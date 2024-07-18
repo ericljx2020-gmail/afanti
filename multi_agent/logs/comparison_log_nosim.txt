@@ -20,6 +20,9 @@
 ----
 {'Supervisor': {'next': 'FINISH'}}
 ----
+
+
+
 {'Supervisor': {'next': 'Noter'}}
 ----
 {'Noter': {'messages': [HumanMessage(content='知识点讲解:本题考查的知识点是方程组的解法，解题关键点是设出未知数并列出方程组求解。\n\n### 板书一:\n设每本书的价格为x元，每支笔的价格为y元。依题意得：\n$$ x = 3y $$\n$$ x = y + 8 $$\n\n解这个方程组：\n$$ 3y = y + 8 $$\n$$ 2y = 8 $$\n$$ y = 4 $$\n\n### 板书二:\n代入x = 3y得：\n$$ x = 3 \\cdot 4 $$\n$$ x = 12 $$\n\n故每本书的价格是12元，每支笔的价格是4元。', name='Noter')]}}
@@ -51,6 +54,9 @@
 {'Supervisor': {'next': 'Noter'}}
 ----
 题目可能无法用三年级的知识点解出，请检查题目是否包含超纲内容。
+
+
+
 {'Supervisor': {'next': 'Noter'}}
 ----
 {'Noter': {'messages': [HumanMessage(content='知识点讲解: 本题考查的知识点是乘法运算，解题关键点是利用分配律进行简化计算。\n\n### 板书一:\n依题意得:\n98 × 102 = (100 - 2) × (100 + 2)\n  = 100^2 - 2^2  (平方差公式)\n  = 10000 - 4\n  = 9996\n故答案是 9996', name='Noter')]}}
@@ -73,6 +79,9 @@
 ----
 {'Supervisor': {'next': 'FINISH'}}
 ----
+
+
+
 {'Supervisor': {'next': 'Noter'}}
 ----
 {'Noter': {'messages': [HumanMessage(content='知识点讲解:本题考查的知识点是三角形的基本性质和三角函数，解题关键点是利用正弦定理求解边长。\n\n### 板书一:\n设边AB的长度为c。\n因为三角形的内角和为180度，\n所以角C = 180度 - 30度 - 45度 = 105度。\n\n### 板书二:\n根据正弦定理：\n$\\frac{a}{\\sin A} = \\frac{b}{\\sin B} = \\frac{c}{\\sin C}$\n\n依题意得：\n$\\frac{10}{\\sin 45^\\circ} = \\frac{c}{\\sin 105^\\circ}$\n\n$\\sin 45^\\circ = \\frac{\\sqrt{2}}{2}$\n\n$\\sin 105^\\circ = \\sin (60^\\circ + 45^\\circ) = \\sin 60^\\circ \\cos 45^\\circ + \\cos 60^\\circ \\sin 45^\\circ = \\frac{\\sqrt{3}}{2} \\cdot \\frac{\\sqrt{2}}{2} + \\frac{1}{2} \\cdot \\frac{\\sqrt{2}}{2} = \\frac{\\sqrt{6}}{4} + \\frac{\\sqrt{2}}{4} = \\frac{\\sqrt{6} + \\sqrt{2}}{4}$\n\n### 板书三:\n代入等式求解c：\n$\\frac{10}{\\frac{\\sqrt{2}}{2}} = \\frac{c}{\\frac{\\sqrt{6} + \\sqrt{2}}{4}}$\n\n$10 \\times \\frac{2}{\\sqrt{2}} = c \\times \\frac{4}{\\sqrt{6} + \\sqrt{2}}$\n\n$10 \\times \\sqrt{2} \\times 2 = c \\times 4$\n\n$c = \\frac{20 \\sqrt{2}}{4}$\n\n$c = 5 \\sqrt{2}$\n\n故答案是$5 \\sqrt{2}$。', name='Noter')]}}
@@ -104,6 +113,9 @@
 {'Supervisor': {'next': 'Noter'}}
 ----
 题目可能无法用三年级的知识点解出，请检查题目是否包含超纲内容。
+
+
+
 {'Supervisor': {'next': 'Noter'}}
 ----
 {'Noter': {'messages': [HumanMessage(content='知识点讲解: 本题考查的知识点是质数的定义和基本性质，解题关键点是找到满足条件的两个不同质数。\n\n### 板书一:\n设$p$和$q$为两个不同的质数，且$p + q$为质数，$p \\times q$为合数。\n根据质数定义：一个大于1的自然数，除了1和它本身外，不能被其他自然数整除。\n\n### 板书二:\n选择$p = 2$和$q = 3$，验证其是否满足条件。\n$p + q = 2 + 3 = 5$，5是质数。\n$p \\times q = 2 \\times 3 = 6$，6是合数。\n故答案是$p = 2$和$q = 3$。', name='Noter')]}}
@@ -118,6 +130,9 @@
 ----
 {'Supervisor': {'next': 'FINISH'}}
 ----
+
+
+
 {'Supervisor': {'next': 'Noter'}}
 ----
 {'Noter': {'messages': [HumanMessage(content='知识点讲解:本题考查的知识点是鸡兔同笼问题，解题关键点是列出方程组并求解。\n\n### 板书一:\n设鸡的只数为$x$，兔子的只数为$y$。\n根据题意，有以下两个方程：\n$x + y = 35$\n$2x + 4y = 94$\n\n### 板书二:\n解方程组：\n由$x + y = 35$，得$y = 35 - x$\n将其代入$2x + 4y = 94$，得\n$2x + 4(35 - x) = 94$\n$2x + 140 - 4x = 94$\n$-2x + 140 = 94$\n$-2x = 94 - 140$\n$-2x = -46$\n$x = 23$\n\n然后代入$y = 35 - x$，得\n$y = 35 - 23$\n$y = 12$\n\n故答案是鸡有23只，兔子有12只。', name='Noter')]}}
