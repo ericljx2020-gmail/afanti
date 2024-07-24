@@ -5,3 +5,4 @@ asset
 config
 *.png
 course_material
+*.json
