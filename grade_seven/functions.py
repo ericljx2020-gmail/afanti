@@ -7,7 +7,7 @@ import os
 import nest_asyncio
 import asyncio
 import re
-from typing import Any, Dict, Tuple
+from typing import Any, Dict, Tuple, List
 from templates import extract_prompt
 import torch
 from langchain_openai import OpenAIEmbeddings
@@ -84,7 +84,7 @@ def cosimilarity(p1: str, p2: str):
     return torch.dot(p1_emb, p2_emb) / (torch.norm(p1_emb) * torch.norm(p2_emb))
 
 
-async def search_similar(problem: str) -> Tuple[float, int, dict]:
+async def search_similar(problem: str) -> List:
     with open("problems_emb.json", 'r') as f:
         db_problem_emb = json.load(f)
     embedding_model = OpenAIEmbeddings(model='text-embedding-3-large')
@@ -108,12 +108,10 @@ async def search_similar(problem: str) -> Tuple[float, int, dict]:
             tot += torch.dot(cur_p[j], q_emb[j]) * weights[j]
         similar_scores.append(tot)
     
-    max_similarity = max(similar_scores)
-    max_idx = similar_scores.index(max_similarity)
-    return (max_similarity, max_idx)
+    sorted_scores = sorted(range(len(similar_scores)), key= lambda x: similar_scores[x], reverse=True)
+    return sorted_scores[:3]
 
-
-async def image2sol(image_path: str) -> Tuple[str, str]:
+async def image2sol(image_path: str) -> Tuple[str, str, str, dict]:
     with open(image_path, 'rb') as f:
         image_data = base64.b64encode(f.read()).decode("utf-8")
     
@@ -130,13 +128,13 @@ async def image2sol(image_path: str) -> Tuple[str, str]:
     problem = llm.invoke([message])
     
     problem = problem.content
-    score, idx = await search_similar(problem)
+    sim_problems = await search_similar(problem)
 
     with open("problem_set_g7.json", 'r') as f:
         lookup_tab = json.load(f)
-    similar_prob = lookup_tab[idx]
+    for c in sim_problems:
+        similar_prob = lookup_tab[c]
+        print(similar_prob)
 
-    print(similar_prob)
-
-    note, explanation = run(problem, similar_prob['problem'], similar_prob['answer'], "七年级")
-    return (note, explanation, similar_prob, problem)
+    note, explanation = run(problem, sim_problems, "七年级")
+    return (note, explanation, sim_problems, problem)

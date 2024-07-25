@@ -13,6 +13,7 @@ from langchain_experimental.tools import PythonREPLTool
 from typing import Annotated, Sequence, TypedDict
 import functools
 import operator
+import json
 
 from new_templates import *
 
@@ -110,7 +111,7 @@ def supervisor_node(state, log):
     log['Supervisor'] = result
     return result
 
-def run(orig_problem, similar_problem, similar_solution, grade_value) -> list:
+def run(orig_problem, sim_problems, grade_value) -> list:
     global validator_template
     log = {}
     record = [] 
@@ -142,11 +143,19 @@ def run(orig_problem, similar_problem, similar_solution, grade_value) -> list:
 
     graph = workflow.compile()
 
-    if "相似题" not in similar_problem:
-        similar_problem = "### 相似题：" + similar_problem
-    if "相似题解" not in similar_problem:
-        similar_solution = "### 相似题解：" + similar_solution
-
+    model_input = []
+    with open('problem_set_g7.json', 'r') as f:
+        data = json.load(f)
+    for c in sim_problems:
+        similar_problem = data[c]['problem']
+        similar_solution = data[c]['answer']
+        if "相似题" not in similar_problem:
+            similar_problem = "### 相似题：" + similar_problem
+        if "相似题解" not in similar_solution:
+            similar_solution = "### 相似题解：" + similar_solution
+        model_input.append(HumanMessage(content=similar_problem))
+        model_input.append(HumanMessage(content=similar_solution))
+    model_input.append(HumanMessage(content="### 原题：" + orig_problem))
     '''
                     HumanMessage(content=similar_problem),
                     HumanMessage(content=similar_solution),
@@ -155,9 +164,7 @@ def run(orig_problem, similar_problem, similar_solution, grade_value) -> list:
     try:
         for s in graph.stream(
             {
-                "messages": [
-                    HumanMessage(content=orig_problem),
-                ]
+                "messages": model_input
             },
             {"recursion_limit": 15},
         ):
