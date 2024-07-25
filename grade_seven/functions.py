@@ -7,11 +7,11 @@ import os
 import nest_asyncio
 import asyncio
 import re
-from typing import Any, Dict
+from typing import Any, Dict, Tuple
 from templates import extract_prompt
 import torch
 from langchain_openai import OpenAIEmbeddings
-
+import torch
 
 '''
 输入一：一个包含template中所有变量以及对应值的字典
@@ -79,3 +79,32 @@ def cosimilarity(p1: str, p2: str):
         p2_emb = torch.tensor(embedding_model.embed_query(p2))
         text2embed[p2] = p2_emb
     return torch.dot(p1_emb, p2_emb) / (torch.norm(p1_emb) * torch.norm(p2_emb))
+
+
+async def search_similar(problem: str) -> Tuple[float, int]:
+    with open("problems_emb.json", 'r') as f:
+        db_problem_emb = json.load(f)
+    embedding_model = OpenAIEmbeddings(model='text-embedding-3-large')
+    q_emb = []
+    temp = await inference({"problem": problem}, extract_prompt)
+    pattern = r'\d+\.\s.*?:\s*(.*)'
+    matches = re.findall(pattern, temp)
+    
+    for i, match in enumerate(matches, 1):
+        q_emb.append(embedding_model.embed_query(match))
+    
+    q_emb = torch.tensor(q_emb)
+    problems_emb = torch.tensor(db_problem_emb)
+
+    similar_scores = []
+    weights = [0.4, 0.2, 0.15, 0.05, 0.05, 0.15]
+    for i in range(problems_emb.shape[0]):
+        cur_p = problems_emb[i]
+        tot = 0
+        for j in range(cur_p.shape[0]):
+            tot += torch.dot(cur_p[j], q_emb[j]) * weights[j]
+        similar_scores.append(tot)
+    
+    max_similarity = max(similar_scores)
+    max_idx = similar_scores.index(max_similarity)
+    return (max_similarity, max_idx)
