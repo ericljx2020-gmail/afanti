@@ -2,6 +2,7 @@ from langchain_core.messages import (
     BaseMessage,
     HumanMessage,
     ToolMessage,
+    AIMessage,
 )
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langgraph.graph import END, StateGraph, START
@@ -154,7 +155,7 @@ def run(orig_problem, sim_problems, grade_value) -> list:
         if "相似题解" not in similar_solution:
             similar_solution = "### 相似题解：" + similar_solution
         model_input.append(HumanMessage(content=similar_problem))
-        model_input.append(HumanMessage(content=similar_solution))
+        model_input.append(AIMessage(content=similar_solution))
     model_input.append(HumanMessage(content="### 原题：" + orig_problem))
     '''
                     HumanMessage(content=similar_problem),
