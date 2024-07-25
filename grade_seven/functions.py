@@ -12,6 +12,9 @@ from templates import extract_prompt
 import torch
 from langchain_openai import OpenAIEmbeddings
 import torch
+import base64
+from langchain_core.messages import HumanMessage
+from multiagent_func import run
 
 '''
 输入一：一个包含template中所有变量以及对应值的字典
@@ -108,3 +111,32 @@ async def search_similar(problem: str) -> Tuple[float, int]:
     max_similarity = max(similar_scores)
     max_idx = similar_scores.index(max_similarity)
     return (max_similarity, max_idx)
+
+
+async def image2sol(image_path: str) -> Tuple[str, str]:
+    with open(image_path, 'rb') as f:
+        image_data = base64.b64encode(f.read()).decode("utf-8")
+    
+    llm = ChatOpenAI(model='gpt-4o', max_tokens=1000)
+    message = HumanMessage(
+        content=[
+            {"type": "text", "text": "请提取出图片中的题目，如果是选择题，请将选项也提取出来，不要输出题目以外的任何内容。如果图片中有解题需要的图形图片，请用语言对图片进行详细描述"},
+            {
+                "type": "image_url",
+                "image_url": {"url": f"data:image/jpeg;base64,{image_data}"},
+            },
+        ],
+    )
+    problem = llm.invoke([message])
+    
+    problem = problem.content
+    score, idx = await search_similar(problem)
+
+    with open("problem_set_g7.json", 'r') as f:
+        lookup_tab = json.load(f)
+    similar_prob = lookup_tab[idx]
+
+    print(similar_prob)
+
+    note, explanation = run(problem, similar_prob['problem'], similar_prob['answer'], "七年级")
+    return (note, explanation)
