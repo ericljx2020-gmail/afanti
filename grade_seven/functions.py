@@ -109,7 +109,7 @@ async def search_similar(problem: str) -> List:
         similar_scores.append(tot)
     
     sorted_scores = sorted(range(len(similar_scores)), key= lambda x: similar_scores[x], reverse=True)
-    return sorted_scores[:3]
+    return sorted_scores[:1]
 
 async def image2sol(image_path: str) -> Tuple[str, str, str, dict]:
     with open(image_path, 'rb') as f:
