@@ -139,4 +139,4 @@ async def image2sol(image_path: str) -> Tuple[str, str]:
     print(similar_prob)
 
     note, explanation = run(problem, similar_prob['problem'], similar_prob['answer'], "七年级")
-    return (note, explanation, similar_prob)
+    return (note, explanation, similar_prob, problem)
