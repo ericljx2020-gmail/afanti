@@ -84,7 +84,7 @@ def cosimilarity(p1: str, p2: str):
     return torch.dot(p1_emb, p2_emb) / (torch.norm(p1_emb) * torch.norm(p2_emb))
 
 
-async def search_similar(problem: str) -> Tuple[float, int]:
+async def search_similar(problem: str) -> Tuple[float, int, dict]:
     with open("problems_emb.json", 'r') as f:
         db_problem_emb = json.load(f)
     embedding_model = OpenAIEmbeddings(model='text-embedding-3-large')
@@ -139,4 +139,4 @@ async def image2sol(image_path: str) -> Tuple[str, str]:
     print(similar_prob)
 
     note, explanation = run(problem, similar_prob['problem'], similar_prob['answer'], "七年级")
-    return (note, explanation)
+    return (note, explanation, similar_prob)
