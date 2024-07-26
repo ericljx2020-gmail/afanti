@@ -113,12 +113,28 @@ def supervisor_node(state, log):
     return result
 
 def run(orig_problem, sim_problems, grade_value) -> list:
-    global validator_template
+    global validator_template, explainer_template
     log = {}
     record = [] 
     noter_agent = create_agent(llm, [python_repl_tool], noter_template)
     noter_node = functools.partial(agent_node, agent=noter_agent, name='Noter', log=log)
 
+    with open('problem_set_g7.json', 'r') as f:
+        data = json.load(f)
+    for c in sim_problems:
+        similar_problem = data[c]['problem']
+        similar_solution = data[c]['answer']
+        if "相似题" not in similar_problem:
+            similar_problem = "### 相似题：" + similar_problem
+        if "相似题解" not in similar_solution:
+            similar_solution = "### 相似题解：" + similar_solution
+        explainer_template += similar_problem + '\n\n'
+        explainer_template += similar_solution + '\n\n'
+
+    explainer_template = explainer_template.replace("{", "{{")
+    explainer_template = explainer_template.replace("}", "}}")
+    # print(explainer_template)
+    
     explainer_agent = create_agent(llm, [python_repl_tool], explainer_template)
     explainer_node = functools.partial(agent_node, agent=explainer_agent, name='Explainer', log=log)
 
@@ -144,19 +160,8 @@ def run(orig_problem, sim_problems, grade_value) -> list:
 
     graph = workflow.compile()
 
-    model_input = []
-    with open('problem_set_g7.json', 'r') as f:
-        data = json.load(f)
-    for c in sim_problems:
-        similar_problem = data[c]['problem']
-        similar_solution = data[c]['answer']
-        if "相似题" not in similar_problem:
-            similar_problem = "### 相似题：" + similar_problem
-        if "相似题解" not in similar_solution:
-            similar_solution = "### 相似题解：" + similar_solution
-        model_input.append(HumanMessage(content=similar_problem))
-        model_input.append(AIMessage(content=similar_solution))
-    model_input.append(HumanMessage(content="### 原题：" + orig_problem))
+    # model_input = []
+    # model_input.append(HumanMessage(content="### 原题：" + orig_problem))
     '''
                     HumanMessage(content=similar_problem),
                     HumanMessage(content=similar_solution),
@@ -165,7 +170,9 @@ def run(orig_problem, sim_problems, grade_value) -> list:
     try:
         for s in graph.stream(
             {
-                "messages": model_input
+                "messages": [
+                    HumanMessage(content="### 原题：" + orig_problem),
+                ]
             },
             {"recursion_limit": 15},
         ):
