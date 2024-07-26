@@ -181,8 +181,22 @@ def run(orig_problem, sim_problems, grade_value) -> list:
                 print(s)
                 print("----")
     except RecursionError as e:
-        print(f"题目可能无法用{grade_value}的知识点解出，请检查题目是否包含超纲内容。")
-        return [f"题目可能无法用{grade_value}的知识点解出，请检查题目是否包含超纲内容。",f"题目可能无法用{grade_value}的知识点解出，请检查题目是否包含超纲内容。"]
+        # print(f"题目可能无法用{grade_value}的知识点解出，请检查题目是否包含超纲内容。")
+        # return [f"题目可能无法用{grade_value}的知识点解出，请检查题目是否包含超纲内容。",f"题目可能无法用{grade_value}的知识点解出，请检查题目是否包含超纲内容。"]
+        temp = ["", ""]
+        flag1 = True
+        flag2 = True
+        for item in record[::-1]:
+            for role in item:
+                if role == 'Explainer' and flag1:
+                    temp[1] = item[role]['messages'][0].content
+                    flag1 = False
+                if role == 'Noter' and flag2:
+                    temp[0] = item[role]['messages'][0].content
+                    flag2 = False
+            if flag1 == False and flag2 == False:
+                return temp
+        return temp                
     noter_log = []
     explainer_log = []
     for item in record:
