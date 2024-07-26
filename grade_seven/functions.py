@@ -44,72 +44,103 @@ async def inference(params: Dict[str, any], template: str, max_tokens=1000) -> s
     return output
 
 
-#function 输入两题，返回两题的cos similarity
 async def get_similarity(p1: str, p2: str) -> float:
-    tot = 0
-    min_old = 3
-    max_old = 10
-    min_new = 1
-    max_new = 10
-    weights = [0.4, 0.2, 0.15, 0.05, 0.05, 0.15]
-    extc_p1 = []
-    extc_p2 = []
+    # Constants for normalization
+    MIN_OLD = 3
+    MAX_OLD = 10
+    MIN_NEW = 1
+    MAX_NEW = 10
+    WEIGHTS = [0.4, 0.2, 0.15, 0.05, 0.05, 0.15]
+    NUM_MATCHES = len(WEIGHTS)  # Ensure we don't exceed available weights
+
+    # Extract prompts for both problems
     att_p1 = await inference({"problem": p1}, extract_prompt)
     att_p2 = await inference({"problem": p2}, extract_prompt)
+
+    # Extract matched questions from the prompts using regex
     pattern = r'\d+\.\s.*?:\s*(.*)'
     matches_p1 = re.findall(pattern, att_p1)
     matches_p2 = re.findall(pattern, att_p2)
-    for i, match in enumerate(matches_p1, 1):
-        extc_p1.append(match)
-    for i, match in enumerate(matches_p2, 1):
-        extc_p2.append(match)
-    for i in range(6):
-        tot += weights[i] * cosimilarity(extc_p1[i], extc_p2[i])
-    return ((tot * 10 - min_old) / (max_old - min_old)) * (max_new - min_new) + min_new
+
+    # Ensure we have enough matches to compare
+    if len(matches_p1) < NUM_MATCHES or len(matches_p2) < NUM_MATCHES:
+        raise ValueError(f"Not enough matches found in one of the problems. Expected {NUM_MATCHES} matches.")
+
+    # Compute weighted cosine similarity
+    total_similarity = sum(
+        WEIGHTS[i] * cosimilarity(matches_p1[i], matches_p2[i])
+        for i in range(NUM_MATCHES)
+    )
+
+    # Normalize the similarity score to the new range
+    normalized_similarity = (
+        ((total_similarity * 10 - MIN_OLD) / (MAX_OLD - MIN_OLD)) * (MAX_NEW - MIN_NEW) + MIN_NEW
+    )
+
+    return normalized_similarity
 
 
+
+# Initialize a dictionary to cache text embeddings
 text2embed = {}
-def cosimilarity(p1: str, p2: str):
+
+def cosimilarity(p1: str, p2: str) -> torch.Tensor:
+    # Initialize the embedding model
     embedding_model = OpenAIEmbeddings(model="text-embedding-3-large")
+    
+    # Retrieve or compute the embedding for p1
     if p1 in text2embed: 
-        p1_emb = text2embed.get(p1)
+        p1_emb = text2embed[p1]
     else: 
         p1_emb = torch.tensor(embedding_model.embed_query(p1))
         text2embed[p1] = p1_emb
+    
+    # Retrieve or compute the embedding for p2
     if p2 in text2embed:
-        p2_emb = text2embed.get(p2)
+        p2_emb = text2embed[p2]
     else:
         p2_emb = torch.tensor(embedding_model.embed_query(p2))
         text2embed[p2] = p2_emb
-    return torch.dot(p1_emb, p2_emb) / (torch.norm(p1_emb) * torch.norm(p2_emb))
+    
+    # Compute and return the cosine similarity
+    cosine_similarity = torch.dot(p1_emb, p2_emb) / (torch.norm(p1_emb) * torch.norm(p2_emb))
+    return cosine_similarity
 
 
-async def search_similar(problem: str) -> List:
+
+
+async def search_similar(problem: str) -> List[int]:
+    # Load the problem embeddings from the JSON file
     with open("problems_emb.json", 'r') as f:
         db_problem_emb = json.load(f)
+    
+    # Initialize the embedding model
     embedding_model = OpenAIEmbeddings(model='text-embedding-3-large')
-    q_emb = []
+    
+    # Perform inference to extract the prompt
     temp = await inference({"problem": problem}, extract_prompt)
+    
+    # Extract queries from the prompt using regex
     pattern = r'\d+\.\s.*?:\s*(.*)'
     matches = re.findall(pattern, temp)
     
-    for i, match in enumerate(matches, 1):
-        q_emb.append(embedding_model.embed_query(match))
-    
+    # Embed each extracted query
+    q_emb = [embedding_model.embed_query(match) for match in matches]
     q_emb = torch.tensor(q_emb)
-    problems_emb = torch.tensor(db_problem_emb)
-
-    similar_scores = []
-    weights = [0.4, 0.2, 0.15, 0.05, 0.05, 0.15]
-    for i in range(problems_emb.shape[0]):
-        cur_p = problems_emb[i]
-        tot = 0
-        for j in range(cur_p.shape[0]):
-            tot += torch.dot(cur_p[j], q_emb[j]) * weights[j]
-        similar_scores.append(tot)
     
-    sorted_scores = sorted(range(len(similar_scores)), key= lambda x: similar_scores[x], reverse=True)
-    return sorted_scores[:1]
+    # Convert database embeddings to tensors
+    problems_emb = torch.tensor(db_problem_emb)
+    
+    # Calculate similarity scores with specified weights
+    weights = [0.4, 0.2, 0.15, 0.05, 0.05, 0.15]
+    similar_scores = [
+        sum(torch.dot(problems_emb[i][j], q_emb[j]) * weights[j] for j in range(len(weights)))
+        for i in range(problems_emb.shape[0])
+    ]
+    
+    # Sort and return the top 3 similar scores
+    sorted_scores = sorted(range(len(similar_scores)), key=lambda x: similar_scores[x], reverse=True)
+    return sorted_scores[:3]
 
 async def image2sol(image_path: str) -> Tuple[str, str, str, dict]:
     with open(image_path, 'rb') as f:
